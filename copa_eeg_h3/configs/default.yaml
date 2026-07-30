@@ -1,0 +1,50 @@
+project:
+  seed: 42
+  output_dir: outputs/real_bnci2014_001
+
+data:
+  mode: real
+  dataset: BNCI2014_001
+  subjects: [1, 2, 3, 4, 5]
+  max_subjects: 5
+  max_epochs_per_subject: 24
+  h1_mat_cache: ../copa_eeg_h1/cache/data/MNE-bnci-data/~bci/database/001-2014
+  synthetic:
+    n_subjects: 4
+    epochs_per_subject: 8
+    n_channels: 8
+    sfreq: 250.0
+    epoch_seconds: 2.0
+
+operators:
+  cz_channel: Cz
+  gains: [0.5, 2.0]
+  random_dropout_ratios: [0.25, 0.5]
+  bandpasses: [[4.0, 30.0], [8.0, 30.0]]
+  resample_target_sfreq: 125.0
+
+model:
+  type: auto
+  checkpoint: null
+  allow_large_download: false
+  patch_samples: 25
+  embedding_dim: 32
+  heads: 4
+  layers: 2
+
+inference:
+  batch_size: 4
+  torch_threads: 1
+  layers: all
+  heads: all
+  save_compressed_summaries: true
+
+probe:
+  models: [LogisticRegression, LinearSVC]
+  bootstrap_iterations: 200
+  confidence_level: 0.95
+
+smoke:
+  max_subjects: 3
+  max_epochs_per_subject: 6
+  bootstrap_iterations: 30

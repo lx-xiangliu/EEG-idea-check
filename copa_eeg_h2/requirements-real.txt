@@ -1,0 +1,3 @@
+-r requirements.txt
+mne>=1.5
+moabb>=1.0
