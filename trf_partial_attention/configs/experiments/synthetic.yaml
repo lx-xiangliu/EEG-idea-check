@@ -1,0 +1,12 @@
+seed_count: 5
+conditions:
+  - acoustic_only
+  - acoustic_semantic
+  - weak_semantic
+  - nonlinear
+  - wrong_lag
+  - random_nuisance
+ridge: 0.001
+primary_endpoint: held_out_subject_r1
+negative_sampling: acoustically_matched
+

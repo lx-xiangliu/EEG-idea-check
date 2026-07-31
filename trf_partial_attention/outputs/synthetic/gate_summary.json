@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "B_semantic_improves": false,
+    "A_no_false_semantics": true,
+    "true_beats_shuffled": true,
+    "true_beats_random": false,
+    "qk_beats_input": false,
+    "lag_beats_no_lag": false
+  },
+  "passed": 2,
+  "total": 6,
+  "decision": "PIVOT_OR_STOP"
+}

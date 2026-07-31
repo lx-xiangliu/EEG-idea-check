@@ -1,0 +1,6 @@
+dataset: null
+root: null
+split_manifest: null
+allow_download: false
+required_fields: [subject_id, story_id, audio_path, eeg_path, start_seconds, duration_seconds]
+

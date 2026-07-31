@@ -1,0 +1,9 @@
+dimension: 16
+heads: 1
+residual_method: ridge
+ridge: 0.001
+residualize_query: true
+residualize_key: true
+residualize_value: false
+dropout: 0.0
+

@@ -1,0 +1,50 @@
+[
+  {
+    "device": "cpu",
+    "T": 64,
+    "p": 8,
+    "d": 32,
+    "method": "standard",
+    "wall_seconds": 0.00010264999873470515
+  },
+  {
+    "device": "cpu",
+    "T": 64,
+    "p": 8,
+    "d": 32,
+    "method": "tpa",
+    "wall_seconds": 0.00025509170081932097
+  },
+  {
+    "device": "cpu",
+    "T": 128,
+    "p": 16,
+    "d": 64,
+    "method": "standard",
+    "wall_seconds": 0.00016581669915467502
+  },
+  {
+    "device": "cpu",
+    "T": 128,
+    "p": 16,
+    "d": 64,
+    "method": "tpa",
+    "wall_seconds": 0.0004039166000438854
+  },
+  {
+    "device": "cpu",
+    "T": 256,
+    "p": 32,
+    "d": 64,
+    "method": "standard",
+    "wall_seconds": 0.00028595829789992424
+  },
+  {
+    "device": "cpu",
+    "T": 256,
+    "p": 32,
+    "d": 64,
+    "method": "tpa",
+    "wall_seconds": 0.0006172083987621591
+  }
+]

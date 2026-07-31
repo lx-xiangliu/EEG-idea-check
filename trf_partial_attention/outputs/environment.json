@@ -1,0 +1,13 @@
+{
+  "date": "2026-07-31",
+  "platform": "macOS CPU",
+  "python": "3.12.13",
+  "torch": "2.13.0",
+  "numpy": "2.3.5",
+  "scipy": "1.18.0",
+  "pandas": "2.2.3",
+  "scikit_learn": "1.9.0",
+  "pytest": "9.1.1",
+  "cuda_used": false,
+  "real_eeg_audio_data_used": false
+}
