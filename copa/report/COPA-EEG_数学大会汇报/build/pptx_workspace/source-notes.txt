@@ -1,0 +1,11 @@
+Deck content source:
+- /Users/liuxiang/EEG/report/COPA-EEG_汇报概述.md
+
+Visual source:
+- /Users/liuxiang/EEG/report/COPA-EEG_数学大会汇报/template.tex
+- /Users/liuxiang/EEG/report/COPA-EEG_数学大会汇报/COPA-EEG_数学大会汇报.tex
+- The user-supplied Beamer template was retained for theme, typography, color,
+  frame titles, section transitions, and footer treatment.
+- The final Beamer pages were rendered locally and embedded one per PowerPoint slide.
+
+No web research or external visual assets were added.

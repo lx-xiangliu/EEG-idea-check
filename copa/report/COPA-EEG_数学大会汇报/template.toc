@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{Motivation}{2}{0}{1}
+\beamer@sectionintoc {2}{Framework}{4}{0}{2}
+\beamer@sectionintoc {3}{Results}{6}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{9}{0}{4}
+\beamer@sectionintoc {5}{Thanks}{11}{0}{5}

@@ -1,0 +1,6 @@
+dataset,status,reason,metric,value
+SparrKULee,not_run,no licensed local dataset root supplied,,
+KUL,not_run,no licensed local dataset root supplied,,
+DTU,not_run,no licensed local dataset root supplied,,
+UGR-MINDVOICE,not_run,no licensed local dataset root supplied,,
+ChineseEEG-2,not_run,no licensed local dataset root supplied,,

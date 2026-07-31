@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{研究动机}{2}{0}{1}
+\beamer@sectionintoc {2}{方法框架}{7}{0}{2}
+\beamer@sectionintoc {3}{验证方案}{15}{0}{3}
+\beamer@sectionintoc {4}{结论}{18}{0}{4}

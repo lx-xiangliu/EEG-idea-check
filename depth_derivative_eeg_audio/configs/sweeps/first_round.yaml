@@ -1,0 +1,20 @@
+seeds: [0, 1, 2, 3, 4]
+hierarchical_methods:
+  - no_audio
+  - final
+  - hidden
+  - all_hidden
+  - matryoshka
+  - dda_fixed
+  - dda_learned
+  - dda_monotonic
+  - shuffled_residual
+  - random_teacher
+counterexamples:
+  flat: [hidden, dda_fixed, dda_monotonic]
+  nonmonotonic: [dda_learned, dda_monotonic]
+  parallel: [dda_learned, dda_monotonic]
+  teacher_shuffled: [dda_monotonic]
+budget:
+  max_configurations: 18
+  note: Methods are grouped into 18 mode-method configurations and each uses 5 seeds.

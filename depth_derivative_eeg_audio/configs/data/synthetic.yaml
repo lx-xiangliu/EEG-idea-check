@@ -1,0 +1,14 @@
+mode: hierarchical
+n_train: 192
+n_val: 64
+n_test: 96
+seq_len: 8
+eeg_dim: 12
+audio_dim: 12
+latent_dim: 3
+n_subjects_train: 8
+n_subjects_val: 2
+n_subjects_test: 4
+noise_std: 0.25
+nuisance_std: 0.8
+delay: 0

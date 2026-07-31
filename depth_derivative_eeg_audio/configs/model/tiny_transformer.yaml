@@ -1,0 +1,8 @@
+d_model: 24
+eeg_layers: 4
+audio_layers: 6
+n_heads: 4
+ff_mult: 2
+projection_dim: 16
+dropout: 0.0
+mapper_temperature: 0.55

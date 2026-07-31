@@ -1,0 +1,662 @@
+% !TEX program = xelatex
+% Based strictly on template.tex supplied by the user.
+
+\documentclass[10pt,aspectratio=169]{beamer}
+
+% ---------------- Packages ----------------
+\usepackage[fontset=none]{ctex}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb,bm,mathtools}
+\usepackage{booktabs,array,tabularx,multirow}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+
+\usetikzlibrary{arrows.meta,positioning,calc}
+\graphicspath{{figure/}}
+
+% ---------------- Theme ----------------
+\usetheme[numbering=fraction,progressbar=none,sectionpage=progressbar]{metropolis}
+\metroset{
+  titleformat=regular,
+  titleformat title=regular,
+  titleformat subtitle=regular,
+  titleformat section=regular,
+  titleformat frame=regular
+}
+
+% ---------------- Fonts ----------------
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}\setsansfont{Times New Roman}}
+  {\setmainfont{Noto Serif}\setsansfont{Noto Sans}}
+
+\IfFontExistsTF{Kaiti SC}
+  {\setCJKmainfont[AutoFakeBold=2.5]{Kaiti SC}
+   \setCJKsansfont[AutoFakeBold=2.5]{Kaiti SC}}
+  {\IfFontExistsTF{Noto Serif CJK SC}
+    {\setCJKmainfont[AutoFakeBold=2.5]{Noto Serif CJK SC}
+     \setCJKsansfont[AutoFakeBold=2.5]{Noto Serif CJK SC}}
+    {\setCJKmainfont[
+        Path=/usr/local/texlive/2024/texmf-dist/fonts/opentype/public/fandol/,
+        BoldFont=FandolKai-Regular.otf
+      ]{FandolKai-Regular.otf}
+     \setCJKsansfont[
+        Path=/usr/local/texlive/2024/texmf-dist/fonts/opentype/public/fandol/,
+        BoldFont=FandolKai-Regular.otf
+      ]{FandolKai-Regular.otf}}}
+
+% ---------------- Colors ----------------
+\definecolor{textred}{RGB}{125,34,51}
+\definecolor{deepred}{RGB}{125,34,51}
+\definecolor{darkred}{RGB}{92,12,20}
+\definecolor{ink}{RGB}{20,20,20}
+\definecolor{warmgray}{RGB}{92,88,84}
+\definecolor{linegray}{RGB}{208,208,208}
+\definecolor{footgray}{RGB}{228,228,228}
+\definecolor{gold}{RGB}{180,130,40}
+
+\setbeamercolor{palette primary}{fg=white,bg=deepred}
+\setbeamercolor{title separator}{fg=textred}
+\setbeamercolor{progress bar}{fg=deepred,bg=linegray}
+\setbeamercolor{progress bar in section page}{fg=textred,bg=linegray}
+\setbeamercolor{normal text}{fg=ink,bg=white}
+\setbeamercolor{structure}{fg=deepred}
+\setbeamercolor{alerted text}{fg=deepred}
+\setbeamercolor{title}{fg=ink,bg=white}
+
+% ---------------- Layout ----------------
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=0.82cm,text margin right=0.82cm}
+\setbeamerfont{normal text}{size=\fontsize{9.2}{13}\selectfont}
+\setbeamerfont{frametitle}{size=\fontsize{15}{17}\selectfont,series=\mdseries}
+\setbeamertemplate{itemize item}{\color{deepred}$\bullet$}
+\setbeamertemplate{itemize subitem}{\color{textred}$\circ$}
+\setlength{\tabcolsep}{3pt}
+\linespread{1.02}
+
+% ---------------- Frame title with progress line ----------------
+\makeatletter
+\setbeamertemplate{frametitle}{%
+  \ifx\insertframetitle\@empty
+  \else
+    \nointerlineskip
+    \vspace*{0.23cm}%
+    \hspace*{-0.82cm}%
+    \makebox[0pt][l]{\begin{tikzpicture}
+      \pgfmathsetmacro{\progress}{\insertframenumber/\inserttotalframenumber}
+      \node[
+        anchor=west,
+        inner sep=0pt,
+        text=black,
+        font=\fontsize{11}{11}\bfseries\selectfont
+      ] at (0.75cm, 0.35cm) {\strut\insertframetitle};
+      \draw[linegray, line width=0.6pt] (0, 0) -- (\paperwidth, 0);
+      \draw[textred, line width=0.6pt] (0, 0) -- ({\progress*\paperwidth}, 0);
+    \end{tikzpicture}}%
+    \vspace{-0.02cm}
+  \fi
+}
+\makeatother
+
+% ---------------- Footer ----------------
+\setbeamercolor{footleft}{fg=white,bg=darkred}
+\setbeamercolor{footmid}{fg=deepred,bg=footgray}
+\setbeamercolor{footright}{fg=deepred,bg=white}
+
+\newcommand{\footerleft}{COPA-EEG}
+\newcommand{\footermid}{Operator-Robust EEG Foundation Model}
+\newcommand{\footerright}{Research Proposal}
+
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=0.30\paperwidth,ht=0.30cm,dp=0.06cm,center]{footleft}
+      \raisebox{0.03cm}{\fontsize{7}{8}\selectfont \footerleft}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.50\paperwidth,ht=0.30cm,dp=0.06cm,center]{footmid}
+      \raisebox{0.03cm}{\fontsize{7}{8}\selectfont \footermid}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.20\paperwidth,ht=0.30cm,dp=0.06cm,center]{footright}
+      \raisebox{0.03cm}{\fontsize{7}{8}\selectfont \footerright\quad \insertframenumber/\inserttotalframenumber}
+    \end{beamercolorbox}%
+  }%
+}
+
+% ---------------- Reusable commands ----------------
+\newenvironment{tightitemize}{%
+  \begin{itemize}
+  \setlength{\itemsep}{0.12em}
+  \setlength{\parskip}{0pt}
+}{\end{itemize}}
+
+\newcommand{\hl}[1]{\textcolor{deepred}{#1}}
+\newcommand{\subhead}[1]{\vspace{0.25em}{\fontsize{9.2}{13}\selectfont\color{deepred}\bfseries #1}\par\vspace{0.08em}}
+\newcommand{\smallgray}[1]{{\fontsize{9.2}{13}\selectfont\color{ink}#1}}
+\newcommand{\fig}[2][]{\includegraphics[#1]{#2}}
+\newcommand{\source}[1]{{\vspace{0.08em}\fontsize{6.5}{8}\selectfont\color{warmgray}Source: #1\par}}
+\newcommand{\eqnote}[1]{\vspace{-0.10em}{\fontsize{9.2}{13}\selectfont\color{ink}#1\par\vspace{0.34em}}}
+\newcommand{\formulanote}[1]{{\fontsize{9.2}{13}\selectfont\hspace{2em}#1\par\vspace{0.12em}}}
+
+\newenvironment{slidebody}{%
+  \fontsize{9.2}{13}\selectfont
+  \setlength{\abovedisplayskip}{0.30em}%
+  \setlength{\belowdisplayskip}{0.30em}%
+  \setlength{\abovedisplayshortskip}{0.18em}%
+  \setlength{\belowdisplayshortskip}{0.18em}%
+}{ }
+
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\eqv}{\mathrm{eq}}
+\newcommand{\pred}{\mathrm{pred}}
+\newcommand{\var}{\mathrm{var}}
+\newcommand{\orth}{\mathrm{orth}}
+\newcommand{\softmax}{\operatorname{Softmax}}
+\newcommand{\sg}{\operatorname{sg}}
+\newcommand{\hsic}{\operatorname{HSIC}}
+\newcommand{\R}{\mathbb{R}}
+
+% ---------------- Title information ----------------
+\title{COPA-EEG}
+\subtitle{\textbf{面向观测算子鲁棒性的 EEG 基础模型}}
+\author{{\fontsize{9.2}{13}\selectfont 研究方案汇报}}
+\date{}
+\institute{}
+
+% ---------------- Section transition page ----------------
+\setbeamertemplate{section page}{
+  \centering
+  \begin{minipage}{22em}
+    \centering
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \insertsectionhead\\[-1ex]
+    \usebeamertemplate*{progress bar in section page}
+    \par
+  \end{minipage}
+  \par
+  \vspace{\baselineskip}
+}
+
+\AtBeginSection[]{%
+  \begin{frame}[plain,c,noframenumbering]
+    \sectionpage
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+\vspace*{-0.50cm}
+\titlepage
+\end{frame}
+
+\section{研究动机}
+
+\begin{frame}[t]{格式兼容不等于观测鲁棒}
+\vspace{0.10cm}
+{\fontsize{9.2}{13}\selectfont
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{现有进展：输入兼容}
+\begin{tightitemize}
+  \item 任意通道数、电极位置与记录长度
+  \item 时空依赖、多尺度与拓扑无关表示
+  \item 跨任务、跨条件和跨 setup 预训练
+\end{tightitemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{仍未显式控制：观测混杂}
+\begin{tightitemize}
+  \item \hl{\textbf{reference}} 改变通道线性关系
+  \item \hl{\textbf{filter}} 改变频谱相关结构
+  \item \hl{\textbf{device}} 改变噪声与频率响应
+\end{tightitemize}
+\end{column}
+\end{columns}
+\vspace{0.35cm}
+\[
+\boxed{\text{同一神经活动}\;\not\Rightarrow\;\text{相同 token affinity}}
+\]
+}
+\end{frame}
+
+\begin{frame}[t]{输入兼容之后，还需控制表征关系}
+\vspace{0.10cm}
+\begin{center}
+\begin{minipage}{0.94\textwidth}
+{\color{black}
+\renewcommand{\arraystretch}{1.20}
+\setlength{\tabcolsep}{6pt}
+\fontsize{8.7}{11.5}\selectfont
+\begin{tabularx}{\textwidth}{>{\bfseries}m{0.20\textwidth}X X}
+\toprule[0.9pt]
+方法 & 已推进的问题 & 仍可能保留的混杂 \\
+\midrule
+LaBraM & 大规模自监督预训练 & 数据集与设备身份 \\
+CBraMod / CSBrain & 时空解耦与多尺度建模 & operator-induced affinity \\
+REVE / LUNA & 任意 setup 与拓扑无关表示 & compatibility $\neq$ invariance \\
+NeurIPT & 跨任务、跨条件、电极配置 & 神经变化与算子变化未显式分离 \\
+\bottomrule[0.9pt]
+\end{tabularx}}
+\end{minipage}
+\end{center}
+\vspace{0.22cm}
+\eqnote{\centering \hl{\textbf{COPA-EEG 的研究位置：}}从统一输入空间，推进到控制观测算子造成的表征偏差。}
+\end{frame}
+
+\begin{frame}[t]{观测模型：网络看到 \(X_o\)，而非 \(Z\)}
+\vspace{0.10cm}
+\begin{slidebody}
+\subhead{EEG 观测过程}
+\vspace{0.04cm}
+\[
+\boxed{
+X_o
+=
+M_oR_oG_o\Bigl[H_o\ast(LZ)\Bigr]+\epsilon_o
+}
+\]
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\begin{tightitemize}
+  \item \(L\)：脑源到头皮电极的传导
+  \item \(R_o\)：参考算子
+  \item \(M_o\)：montage 与通道选择
+\end{tightitemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{tightitemize}
+  \item \(H_o\)：滤波器与设备频响
+  \item \(G_o\)：增益与单位变换
+  \item \(\epsilon_o\)：噪声与伪影
+\end{tightitemize}
+\end{column}
+\end{columns}
+\vspace{0.22cm}
+\[
+Z\xrightarrow{o_1}X_{o_1},\qquad
+Z\xrightarrow{o_2}X_{o_2},\qquad
+X_{o_1}\not\equiv X_{o_2}.
+\]
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{普通 attention 混合了神经关系与算子关系}
+\vspace{0.10cm}
+\begin{slidebody}
+\subhead{标准 self-attention}
+\vspace{0.04cm}
+\[
+Q=XW_Q,\quad K=XW_K,\quad V=XW_V,\qquad
+A=\softmax\!\left(\frac{QK^\top}{\sqrt d}\right).
+\]
+\formulanote{\(QK^\top\) 决定 token 如何建立连接；reference、filter 与 device 可系统性改变连接。}
+\vspace{0.20cm}
+\[
+S_{ij}(X_o)
+=
+\underbrace{S_{ij}^{\mathrm{neural}}}_{\text{目标}}
++
+\underbrace{S_{ij}^{\mathrm{operator}}(o)}_{\text{混杂}}.
+\]
+\end{slidebody}
+\end{frame}
+
+\section{方法框架}
+
+\begin{frame}[t]{COPA-EEG：视图与 attention 双重控制}
+\vspace{0.10cm}
+\begin{slidebody}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.55cm,
+  box/.style={draw=linegray,rounded corners=2pt,thick,minimum width=2.05cm,
+    minimum height=0.85cm,align=center},
+  key/.style={draw=deepred,rounded corners=2pt,thick,minimum width=2.25cm,
+    minimum height=0.85cm,align=center},
+  arrow/.style={-{Latex[length=2.2mm]},thick,draw=warmgray}
+]
+  \node[box] (x) {同一记录 \(X\)};
+  \node[key,right=of x] (cop) {COP\\算子配对预训练};
+  \node[box,right=of cop] (tok) {共享 backbone\\EEG tokens};
+  \node[key,right=of tok] (opa) {OPA\\算子部分注意力};
+  \node[box,right=of opa] (z) {表征 \(z\)};
+  \draw[arrow] (x) -- (cop);
+  \draw[arrow] (cop) -- (tok);
+  \draw[arrow] (tok) -- (opa);
+  \draw[arrow] (opa) -- (z);
+\end{tikzpicture}
+\end{center}
+\vspace{0.26cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{Counterfactual Operator Pretraining}
+\begin{tightitemize}
+  \item 同一记录构造 operator-paired views
+  \item 区分等价算子与信息有损算子
+\end{tightitemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{Operator-Partial Attention}
+\begin{tightitemize}
+  \item 学习算子相关低秩子空间
+  \item 软抑制 \(Q,K\) 中的相关方向
+\end{tightitemize}
+\end{column}
+\end{columns}
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{COP：构造 operator-paired views}
+\vspace{0.10cm}
+\begin{slidebody}
+\[
+X^{(1)}=\mathcal T_{o_1}(X),
+\qquad
+X^{(2)}=\mathcal T_{o_2}(X).
+\]
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{近似等价算子}
+\begin{tightitemize}
+  \item 合法重参考、通道置换
+  \item 单位换算、无截断增益
+\end{tightitemize}
+\[
+\mathcal L_{\eqv}
+=
+\bigl\lVert z(X)-z\!\left(\mathcal T_o(X)\right)\bigr\rVert_2^2
+\]
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{信息有损算子}
+\begin{tightitemize}
+  \item 通道删除、降采样、限带
+  \item 强滤波、局部信号损坏
+\end{tightitemize}
+\[
+\text{只预测仍可识别的信息}
+\]
+\end{column}
+\end{columns}
+\vspace{0.18cm}
+\eqnote{\centering 不能把所有增强都视为“完整语义不变”。}
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{有损视图只预测仍可识别的信息}
+\vspace{0.10cm}
+\begin{slidebody}
+\subhead{Operator-conditioned latent prediction}
+\vspace{0.04cm}
+\[
+\boxed{
+\mathcal L_{\pred}
+=
+w(X,o)
+\left\|g_o(z_s)-\sg(z_t)\right\|_2^2
+}
+\]
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{角色分工}
+\begin{tightitemize}
+  \item \(z_t\)：完整视图 teacher
+  \item \(z_s\)：退化视图 student
+  \item \(g_o\)：算子条件预测器
+\end{tightitemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{可信权重 \(w(X,o)\)}
+\begin{tightitemize}
+  \item 保留通道比例与有效带宽
+  \item teacher uncertainty
+\end{tightitemize}
+\end{column}
+\end{columns}
+\vspace{0.20cm}
+\eqnote{\centering 避免退化视图迫使完整视图丢失有效神经信息。}
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{OPA：学习算子相关低秩子空间}
+\vspace{0.10cm}
+\begin{slidebody}
+\subhead{Operator embedding and subspace}
+\vspace{0.04cm}
+\[
+e_o=E_{\op}(o),\qquad
+U_{\ell,h}(o)\in\R^{d_h\times r},\quad r\ll d_h,
+\]
+\[
+P_{\ell,h}(o)=U_{\ell,h}(o)U_{\ell,h}(o)^\top.
+\]
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{输入元数据}
+\begin{tightitemize}
+  \item reference、channel mask、电极坐标
+  \item sampling rate、filter cutoff
+  \item unit、gain、device metadata
+\end{tightitemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{可检验建模假设}
+\begin{tightitemize}
+  \item 算子影响在特征空间中可压缩
+  \item 不同层与 attention head 影响不同
+\end{tightitemize}
+\end{column}
+\end{columns}
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{OPA 用软投影抑制 \(Q,K\) 中的算子方向}
+\vspace{0.10cm}
+\begin{slidebody}
+\[
+\widetilde Q_{\ell,h}
+=
+Q_{\ell,h}
+\bigl(I-\alpha_{\ell,h}(o)P_{\ell,h}(o)\bigr),
+\]
+\[
+\widetilde K_{\ell,h}
+=
+K_{\ell,h}
+\bigl(I-\alpha_{\ell,h}(o)P_{\ell,h}(o)\bigr),
+\qquad 0\le \alpha_{\ell,h}(o)\le 1,
+\]
+\[
+A_{\ell,h}^{\mathrm{OPA}}
+=
+\softmax\!\left(
+\frac{\widetilde Q_{\ell,h}\widetilde K_{\ell,h}^\top}{\sqrt{d_h}}
+\right).
+\]
+\vspace{0.22cm}
+\eqnote{\centering
+\(\alpha=0\)：普通 attention
+\quad|\quad
+\(0<\alpha<1\)：部分抑制
+\quad|\quad
+\(\alpha=1\)：完全投影}
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{从局部关系修正到最终表征约束}
+\vspace{0.10cm}
+\begin{slidebody}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\subhead{局部修正：attention relation}
+\[
+QK^\top\longrightarrow\text{token affinity}
+\]
+reference 与 montage 最直接改变通道间关系。
+\end{column}
+\begin{column}{0.48\textwidth}
+\subhead{全局约束：representation leakage}
+\[
+V,\quad\text{residual},\quad\text{MLP}
+\]
+其他路径仍可能重新引入 operator information。
+\end{column}
+\end{columns}
+\vspace{0.30cm}
+\[
+\widehat o=C_{\op}(z),\qquad
+\mathcal L_{\op}=\hsic(z,o)
+\quad\text{或 adversarial classification}.
+\]
+\end{slidebody}
+\end{frame}
+
+\begin{frame}[t]{总体目标：跨视图、去泄漏、稳几何}
+\vspace{0.10cm}
+\begin{slidebody}
+\[
+\boxed{
+\mathcal L
+=
+\mathcal L_{\pred}
++\lambda_{\eqv}\mathcal L_{\eqv}
++\lambda_{\op}\mathcal L_{\op}
++\lambda_{\var}\mathcal L_{\var}
++\lambda_{\orth}\mathcal L_{\orth}
+}
+\]
+\vspace{0.25cm}
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+{\color{black}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{7pt}
+\fontsize{8.8}{11.8}\selectfont
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}m{0.22\textwidth}X}
+\toprule[0.9pt]
+\textbf{约束} & \textbf{作用} \\
+\midrule
+\(\mathcal L_{\pred},\mathcal L_{\eqv}\) & 可识别信息预测与等价视图稳定性 \\
+\(\mathcal L_{\op}\) & 最终表征的 operator leakage 控制 \\
+\(\mathcal L_{\var},\mathcal L_{\orth}\) & 防止坍塌并约束低秩基几何 \\
+\bottomrule[0.9pt]
+\end{tabularx}}
+\end{minipage}
+\end{center}
+\end{slidebody}
+\end{frame}
+
+\section{验证方案}
+
+\begin{frame}[t]{四个可证伪假设}
+\vspace{0.10cm}
+\begin{center}
+\begin{minipage}{0.92\textwidth}
+{\color{black}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{7pt}
+\fontsize{8.8}{11.8}\selectfont
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash\color{deepred}\bfseries}m{0.10\textwidth}X}
+\toprule[0.9pt]
+H1 & 物理有效算子视图之间存在可识别的共享神经信息。 \\
+H2 & reference、montage、filter、device 在 \(Q,K\) 空间形成可压缩方向。 \\
+H3 & 抑制这些方向可降低 attention 对观测条件的依赖，并保留下游关系。 \\
+H4 & \(Q,K\) 修正不足以保证最终表征稳定，必须约束其他信息路径。 \\
+\bottomrule[0.9pt]
+\end{tabularx}}
+\end{minipage}
+\end{center}
+\vspace{0.22cm}
+\eqnote{\centering 不声称恢复唯一真实脑源；只检验跨观测系统的可迁移表征。}
+\end{frame}
+
+\begin{frame}[t]{性能提升必须伴随算子泄漏下降}
+\vspace{0.10cm}
+{\fontsize{9.2}{13}\selectfont
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.31\textwidth}
+\subhead{分布迁移}
+\begin{tightitemize}
+  \item 跨设备
+  \item 跨 reference
+  \item 跨 montage
+  \item 跨数据集
+\end{tightitemize}
+\end{column}
+\begin{column}{0.31\textwidth}
+\subhead{表征诊断}
+\begin{tightitemize}
+  \item operator probe
+  \item \(Q/K/V\) leakage
+  \item attention map
+  \item final representation
+\end{tightitemize}
+\end{column}
+\begin{column}{0.31\textwidth}
+\subhead{关键消融}
+\begin{tightitemize}
+  \item Q-only / K-only
+  \item QK / QKV
+  \item synthetic / real shift
+  \item frozen / few-shot / full
+\end{tightitemize}
+\end{column}
+\end{columns}
+\vspace{0.38cm}
+\[
+\boxed{
+\text{跨域任务性能}\uparrow
+\quad\land\quad
+\text{operator predictability}\downarrow
+}
+\]
+}
+\end{frame}
+
+\section{结论}
+
+\begin{frame}[t]{将观测系统从隐含噪声变成显式变量}
+\vspace{0.10cm}
+\subhead{核心结论}
+{\fontsize{9.2}{13}\selectfont
+\begin{tightitemize}
+  \item \hl{\textbf{问题重定义：}}EEG 异构性不仅是输入格式问题，也是 token relation 的混杂问题。
+  \item \hl{\textbf{预训练重定义：}}等价算子学习稳定性；有损算子只预测仍可识别的信息。
+  \item \hl{\textbf{attention 修正：}}逐层、逐 head 的低秩软投影抑制 operator-induced affinity。
+  \item \hl{\textbf{证据标准：}}任务迁移、表征泄漏与结构消融必须形成闭环。
+\end{tightitemize}
+\vspace{0.35cm}
+\[
+\boxed{
+\text{目标不是适配更多格式，而是让神经关系更少依赖观测系统}
+}
+\]
+}
+\end{frame}
+
+\begin{frame}[t]{参考工作}
+\vspace{0.10cm}
+{\fontsize{7.2}{9.2}\selectfont
+\begin{enumerate}
+  \setlength{\itemsep}{0.18em}
+  \item Jiang, W.-B., Zhao, L., Lu, B.-L.
+    \emph{Large Brain Model for Learning Generic Representations with Tremendous EEG Data in BCI}. ICLR, 2024.
+  \item Wang, J., et al.
+    \emph{CBraMod: A Criss-Cross Brain Foundation Model for EEG Decoding}. ICLR, 2025.
+  \item El Ouahidi, Y., et al.
+    \emph{REVE: A Foundation Model for EEG}. NeurIPS, 2025.
+  \item Fang, Z., et al.
+    \emph{NeurIPT: Foundation Model for Neural Interfaces}. NeurIPS, 2025.
+  \item Döner, B., et al.
+    \emph{LUNA: Efficient and Topology-Agnostic Foundation Model for EEG Signal Analysis}. NeurIPS, 2025.
+  \item Zhou, Y., et al.
+    \emph{CSBrain: A Cross-scale Spatiotemporal Brain Foundation Model for EEG Decoding}. NeurIPS, 2025.
+\end{enumerate}
+}
+\source{COPA-EEG\_汇报概述.md}
+\end{frame}
+
+\end{document}

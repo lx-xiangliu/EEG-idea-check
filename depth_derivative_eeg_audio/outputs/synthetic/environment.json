@@ -1,0 +1,94 @@
+{
+  "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "torch": "2.13.0",
+  "numpy": "2.3.5",
+  "pandas": "2.2.3",
+  "scipy": "1.18.0",
+  "sklearn": "1.9.0",
+  "cuda_available": false,
+  "config": {
+    "data": {
+      "mode": "hierarchical",
+      "n_train": 192,
+      "n_val": 64,
+      "n_test": 96,
+      "seq_len": 8,
+      "eeg_dim": 12,
+      "audio_dim": 12,
+      "latent_dim": 3,
+      "n_subjects_train": 8,
+      "n_subjects_val": 2,
+      "n_subjects_test": 4,
+      "noise_std": 0.25,
+      "nuisance_std": 0.8,
+      "delay": 0
+    },
+    "model": {
+      "d_model": 24,
+      "eeg_layers": 4,
+      "audio_layers": 6,
+      "n_heads": 4,
+      "ff_mult": 2,
+      "projection_dim": 16,
+      "dropout": 0.0,
+      "mapper_temperature": 0.55
+    },
+    "train": {
+      "seed": 0,
+      "epochs": 10,
+      "batch_size": 32,
+      "learning_rate": 0.002,
+      "weight_decay": 0.0001,
+      "grad_clip": 1.0,
+      "method": "dda_monotonic",
+      "normalize_residuals": true,
+      "device": "cpu",
+      "num_workers": 0,
+      "checkpoint_dir": "outputs/checkpoints"
+    }
+  },
+  "sweep": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "hierarchical_methods": [
+      "no_audio",
+      "final",
+      "hidden",
+      "all_hidden",
+      "matryoshka",
+      "dda_fixed",
+      "dda_learned",
+      "dda_monotonic",
+      "shuffled_residual",
+      "random_teacher"
+    ],
+    "counterexamples": {
+      "flat": [
+        "hidden",
+        "dda_fixed",
+        "dda_monotonic"
+      ],
+      "nonmonotonic": [
+        "dda_learned",
+        "dda_monotonic"
+      ],
+      "parallel": [
+        "dda_learned",
+        "dda_monotonic"
+      ],
+      "teacher_shuffled": [
+        "dda_monotonic"
+      ]
+    },
+    "budget": {
+      "max_configurations": 18,
+      "note": "Methods are grouped into 18 mode-method configurations and each uses 5 seeds."
+    }
+  }
+}
